@@ -13,22 +13,21 @@ const home = async (req, res) => {
 // Registration page
 const register = async (req, res) => {
   try {
-    console.log(req.body);
-
     const { username, email, phone, password } = req.body;
     const isUserExist = await User.findOne({ email: email });
     if (isUserExist) {
       return res.status(400).json({ message: "email already exists" });
     }
+
     const userCreated = await User.create({
       username,
       email,
       phone,
       password,
     });
-    res.status(200).json({ msg: userCreated });
+    res.status(201).json({ msg: userCreated });
   } catch (error) {
-    console.log(error);
+    res.status(500).json("internal server error");
   }
 };
 
